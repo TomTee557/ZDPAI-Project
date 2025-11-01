@@ -1,6 +1,13 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
+import { getAllUsers, updateUserRole, updateUserPassword, deleteUser } from '../controllers/admin.controller';
+import { authenticateToken } from '../middleware/auth.middleware';
+import { requireAdmin } from '../middleware/authorization.middleware';
 
 const router = Router();
+
+// All admin routes require authentication and admin role
+router.use(authenticateToken);
+router.use(requireAdmin);
 
 /**
  * GET /api/admin/users
@@ -8,10 +15,7 @@ const router = Router();
  * Header: Authorization: Bearer <token>
  * Response: { success: true, users: User[] }
  */
-router.get('/users', (req: Request, res: Response) => {
-  // TODO: Implement get all users logic
-  res.status(501).json({ error: 'Not implemented yet' });
-});
+router.get('/users', getAllUsers);
 
 /**
  * PUT /api/admin/users/:id/role
@@ -21,10 +25,7 @@ router.get('/users', (req: Request, res: Response) => {
  * Body: { role: 'USER' | 'ADMIN' }
  * Response: { success: true, message: string }
  */
-router.put('/users/:id/role', (req: Request, res: Response) => {
-  // TODO: Implement update user role logic
-  res.status(501).json({ error: 'Not implemented yet' });
-});
+router.put('/users/:id/role', updateUserRole);
 
 /**
  * PUT /api/admin/users/:id/password
@@ -34,10 +35,7 @@ router.put('/users/:id/role', (req: Request, res: Response) => {
  * Body: { password: string }
  * Response: { success: true, message: string }
  */
-router.put('/users/:id/password', (req: Request, res: Response) => {
-  // TODO: Implement update user password logic
-  res.status(501).json({ error: 'Not implemented yet' });
-});
+router.put('/users/:id/password', updateUserPassword);
 
 /**
  * DELETE /api/admin/users/:id
@@ -46,9 +44,6 @@ router.put('/users/:id/password', (req: Request, res: Response) => {
  * Params: id (user ID)
  * Response: { success: true, message: string }
  */
-router.delete('/users/:id', (req: Request, res: Response) => {
-  // TODO: Implement delete user logic
-  res.status(501).json({ error: 'Not implemented yet' });
-});
+router.delete('/users/:id', deleteUser);
 
 export default router;
