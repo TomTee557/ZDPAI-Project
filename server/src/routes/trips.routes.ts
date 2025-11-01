@@ -1,6 +1,11 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
+import { getTrips, getTripById, createTrip, updateTrip, deleteTrip } from '../controllers/trips.controller';
+import { authenticateToken } from '../middleware/auth.middleware';
 
 const router = Router();
+
+// All trips routes require authentication
+router.use(authenticateToken);
 
 /**
  * GET /api/trips
@@ -8,10 +13,16 @@ const router = Router();
  * Header: Authorization: Bearer <token>
  * Response: { success: true, data: Trip[], count: number }
  */
-router.get('/', (req: Request, res: Response) => {
-  // TODO: Implement get trips logic
-  res.status(501).json({ error: 'Not implemented yet' });
-});
+router.get('/', getTrips);
+
+/**
+ * GET /api/trips/:id
+ * Get single trip by ID
+ * Header: Authorization: Bearer <token>
+ * Params: id (trip UUID)
+ * Response: { success: true, data: Trip }
+ */
+router.get('/:id', getTripById);
 
 /**
  * POST /api/trips
@@ -20,10 +31,7 @@ router.get('/', (req: Request, res: Response) => {
  * Body: { title, country, dateFrom, dateTo, tripType?, tags?, budget?, description?, image? }
  * Response: { success: true, message: string, tripId: string }
  */
-router.post('/', (req: Request, res: Response) => {
-  // TODO: Implement create trip logic
-  res.status(501).json({ error: 'Not implemented yet' });
-});
+router.post('/', createTrip);
 
 /**
  * PUT /api/trips/:id
@@ -33,10 +41,7 @@ router.post('/', (req: Request, res: Response) => {
  * Body: { title, country, dateFrom, dateTo, tripType?, tags?, budget?, description?, image? }
  * Response: { success: true, message: string }
  */
-router.put('/:id', (req: Request, res: Response) => {
-  // TODO: Implement update trip logic
-  res.status(501).json({ error: 'Not implemented yet' });
-});
+router.put('/:id', updateTrip);
 
 /**
  * DELETE /api/trips/:id
@@ -45,9 +50,6 @@ router.put('/:id', (req: Request, res: Response) => {
  * Params: id (trip UUID)
  * Response: { success: true, message: string }
  */
-router.delete('/:id', (req: Request, res: Response) => {
-  // TODO: Implement delete trip logic
-  res.status(501).json({ error: 'Not implemented yet' });
-});
+router.delete('/:id', deleteTrip);
 
 export default router;
