@@ -1,0 +1,90 @@
+import { Request } from 'express';
+
+/**
+ * Extended Express Request with authenticated user data
+ */
+export interface AuthenticatedRequest extends Request {
+  user?: {
+    id: number;
+    email: string;
+    role: string;
+  };
+}
+
+/**
+ * JWT Payload structure
+ */
+export interface JwtPayload {
+  id: number;
+  email: string;
+  role: string;
+  iat?: number;
+  exp?: number;
+}
+
+/**
+ * Login request body
+ */
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+/**
+ * Registration request body
+ */
+export interface RegisterRequest {
+  email: string;
+  name: string;
+  surname: string;
+  password: string;
+}
+
+/**
+ * Create/Update trip request body
+ */
+export interface TripRequest {
+  title: string;
+  country: string;
+  dateFrom: string; // ISO date string
+  dateTo: string; // ISO date string
+  tripType?: string[];
+  tags?: string[];
+  budget?: string;
+  description?: string;
+  image?: string;
+}
+
+/**
+ * Update user role request body
+ */
+export interface UpdateUserRoleRequest {
+  role: 'USER' | 'ADMIN';
+}
+
+/**
+ * Update user password request body
+ */
+export interface UpdateUserPasswordRequest {
+  password: string;
+}
+
+/**
+ * Standard API success response
+ */
+export interface ApiSuccessResponse<T = any> {
+  success: true;
+  message?: string;
+  data?: T;
+  [key: string]: any;
+}
+
+/**
+ * Standard API error response
+ */
+export interface ApiErrorResponse {
+  success?: false;
+  error: string;
+  message: string;
+  details?: any;
+}
